@@ -1,7 +1,7 @@
-(ns wordzert.core-test
+(ns wordzert.client.core-test
     (:require
      [cljs.test :refer-macros [deftest is testing]]
-     [wordzert.core :refer [multiply]]))
+     [wordzert.client.core :refer [multiply]]))
 
 (deftest multiply-test
   (is (= (* 1 2) (multiply 1 2))))

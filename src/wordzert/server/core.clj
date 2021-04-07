@@ -1,4 +1,4 @@
-(ns wordzert.core
+(ns wordzert.server.core
   (:gen-class)
   (:use [org.httpkit.server :only [run-server]]))
 

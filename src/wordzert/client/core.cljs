@@ -1,10 +1,8 @@
-(ns ^:figwheel-hooks wordzert.core
+(ns ^:figwheel-hooks wordzert.client.core
   (:require
    [goog.dom :as gdom]))
 
 (println "This text is printed from src/hello_world/core.cljs. Go ahead and edit it and see reloading in action.")
-
-(println )
 
 (defn multiply [a b] (* a b))
 
