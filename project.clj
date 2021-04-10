@@ -7,7 +7,11 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/clojurescript "1.10.773"]
                  [ring/ring-core "1.9.2"]
-                 [http-kit "2.5.3"]]
+                 [ring/ring-anti-forgery "1.3.0"]
+                 [http-kit "2.5.3"]
+                 [compojure "1.6.2"]
+                 [hiccup "1.0.5"]
+                 [org.slf4j/slf4j-simple "2.0.0-alpha1"]]
 
   :source-paths ["src"]
 
@@ -17,6 +21,7 @@
             "fig:test"  ["run" "-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "wordzert.client.test-runner"]}
 
   :main ^:skip-aot wordzert.server.core
+
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
