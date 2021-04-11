@@ -44,14 +44,20 @@
   (POST "/chsk"  ring-req (ring-ajax-post                ring-req))
   (route/resources "/"))
 
-(def handler 
+(def handler
   (-> routes
       ring.middleware.keyword-params/wrap-keyword-params
       ring.middleware.params/wrap-params
       ring.middleware.anti-forgery/wrap-anti-forgery
-      ring.middleware.session/wrap-session
-      ))
+      ring.middleware.session/wrap-session))
 
-(defn -main [& args]
-  (run-server handler {:port 8000})
+(defonce stop-server-fn (atom nil))
+(defn stop-server! []
+  (when (not (nil? @stop-server-fn)) (@stop-server-fn)))
+
+(defn start-server! []
+  (stop-server!)
+  (reset! stop-server-fn (run-server handler {:port 8000}))
   (println (str "Server started, listening to port 8000")))
+
+(defn -main [& args] (start-server!))
