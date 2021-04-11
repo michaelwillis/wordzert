@@ -22,7 +22,12 @@
      [:div#app]
      [:script {:src "cljs-out/dev-main.js" :type "text/javascript"}]]]))
 
-(let [chsk-server (sente/make-channel-socket-server! (get-sch-adapter) {})
+(defn get-user-id [req]
+  (get-in req [:cookies "ring-session" :value]))
+
+(let [chsk-server (sente/make-channel-socket-server!
+                   (get-sch-adapter)
+                   {:user-id-fn get-user-id})
       {:keys [ch-recv send-fn connected-uids
               ajax-post-fn ajax-get-or-ws-handshake-fn]}
       chsk-server]
