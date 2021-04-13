@@ -12,7 +12,8 @@
                  [compojure "1.6.2"]
                  [hiccup "1.0.5"]
                  [com.taoensso/sente "1.16.2"]
-                 [org.slf4j/slf4j-simple "2.0.0-alpha1"]]
+                 [org.slf4j/slf4j-simple "2.0.0-alpha1"]
+                 [reagent "1.0.0"]]
 
   :source-paths ["src"]
 
