@@ -43,10 +43,12 @@
            :on-change #(reset! value (-> % .-target .-value))}])
 
 (defn start-game [name]
-  (js/alert (str "Starting game with player name: " name)))
+  (js/alert (str "Starting game with player name: " name))
+  (chsk-send! [:wordzert/start-game {:name name}]))
 
 (defn join-game [name code]
-  (js/alert (str "Joining game with player name: " name ", game code: " code)))
+  (js/alert (str "Joining game with player name: " name ", game code: " code))
+  (chsk-send! [:wordzert/join-game {:name name :code code}]))
 
 (defn sign-in-widget []
   (let [name (reagent/atom "")
@@ -60,6 +62,7 @@
        [:p "Or " [:button {:type "button" :on-click #(start-game @name)} "Start New Game"]]])))
 
 (reagent-dom/render [sign-in-widget] (.getElementById js/document "app"))
+
 
 ;; TODO - Get initial state from server
 ;; then render based on that state.

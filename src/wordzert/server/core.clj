@@ -43,6 +43,26 @@
              (when (not= old new)
                (println "Connected uids change: %s" new))))
 
+(defmulti handle-event :id)
+
+(defmethod handle-event :default [event]
+  (println "Unhandled event: %s" (:id event)))
+
+(defmethod handle-event :wordzert/join-game [event]
+  (println "Join game! %s" (:?data event)))
+
+(defmethod handle-event :wordzert/start-game [event]
+  (println "Start game! %s" (:?data event)))
+
+(defonce stop-event-handler-fn (atom nil))
+
+(defn  stop-event-handler! []
+  (when-let [stop-fn @stop-event-handler-fn] (stop-fn)))
+
+(defn start-event-handler! []
+  (stop-event-handler!)
+  (reset! stop-event-handler-fn (sente/start-server-chsk-router! ch-chsk handle-event)))
+
 (defroutes routes
   (GET "/" req (landing-page-handler req))
   (GET  "/chsk"  ring-req (ring-ajax-get-or-ws-handshake ring-req))
@@ -56,13 +76,18 @@
       ring.middleware.anti-forgery/wrap-anti-forgery
       ring.middleware.session/wrap-session))
 
+
 (defonce stop-server-fn (atom nil))
+
 (defn stop-server! []
-  (when (not (nil? @stop-server-fn)) (@stop-server-fn)))
+  (when-let [stop-fn @stop-server-fn] (stop-fn)))
 
 (defn start-server! []
   (stop-server!)
   (reset! stop-server-fn (run-server handler {:port 8000}))
   (println (str "Server started, listening to port 8000")))
 
-(defn -main [& args] (start-server!))
+
+(defn -main [& args]
+  (start-event-handler!)
+  (start-server!))
